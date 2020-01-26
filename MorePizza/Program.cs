@@ -20,11 +20,11 @@ namespace MorePizza
             string path5c = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\File\e_output.in";
 
             File file = new File();
-            string[] list = file.ReadFile(path1);
+            string[] list = file.ReadFile(path5);
             Order order = new Order(list);
             List<int> orderedPizza = order.GenerateOrder();
             string data = DataCreator.CreateString(orderedPizza);
-            file.CreateFile(path1c, data);
+            file.CreateFile(path5c, data);
         }
     }
 }

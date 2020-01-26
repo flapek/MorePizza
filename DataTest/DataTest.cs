@@ -7,6 +7,9 @@ namespace DataTest
     [TestClass]
     public class DataTest
     {
+        /// <summary>
+        /// Metoda sprawda czy w odpowiedni sposób jest tworzony tekst wynikowy
+        /// </summary>
         [TestMethod]
         public void TestCreateData()
         {

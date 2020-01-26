@@ -7,28 +7,33 @@ namespace MorePizzaTest
     [TestClass]
     public class FileTest
     {
-        private string path1 = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\File\a_example.in";
-        private string path2 = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\File\a_output.in";
+        private string pathToRead = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\File\a_example.in";
+        private string pathToCreate = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\File\a_output.in";
 
+        /// <summary>
+        /// Metoda sprawdza czy odpowiednio zosta³a utworzona tablica list z pliku
+        /// </summary>
         [TestMethod]
         public void TestReadFromFile()
         {
             File file = new File();
             string expected = "8";
-            string[] list = file.ReadFile(path1);
-
+            string[] list = file.ReadFile(pathToRead);
 
             Assert.AreEqual(expected, list[5]);
         }
 
+        /// <summary>
+        /// Metoda spradza czy odpowiednio zosta³ utworzony plik wynikowy
+        /// </summary>
         [TestMethod]
         public void TestCreateFile()
         {
             File file = new File();
             string data = "3\n0 2 3\n";
-            file.CreateFile(path2, data);
+            file.CreateFile(pathToCreate, data);
 
-            Assert.IsTrue(System.IO.File.Exists(path2));
+            Assert.IsTrue(System.IO.File.Exists(pathToCreate));
         }
     }
 }

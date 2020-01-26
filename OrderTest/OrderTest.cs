@@ -7,27 +7,28 @@ namespace OrderTest
     [TestClass]
     public class OrderTest
     {
-        private readonly string path1 = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\File\a_example.in";
-        private readonly string path2 = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\File\b_small.in";
-
+        /// <summary>
+        /// Metoda sprawda czy odpowiednio dzielona jest tablica list na obiekt order
+        /// </summary>
         [TestMethod]
         public void TestOrder()
         {
-            File file = new File();
             List<int> expected = new List<int>() { 2, 5, 6, 8 };
-            string[] list = file.ReadFile(path1);
+            string[] list = new string[] { "17", "4", "2", "5", "6", "8" };
 
             Order order = new Order(list);
 
             Assert.AreEqual(expected[0], order.PizzaSlicesNumbers[0]);
         }
 
+        /// <summary>
+        /// Metoda sprawda czy metoda generuj¹ca zamówienie zwraca odpowiednie indeksy
+        /// </summary>
         [TestMethod]
         public void TestGenerateOrder()
         {
-            File file = new File();
             List<int> expected = new List<int>() { 0, 2, 3 };
-            string[] list = file.ReadFile(path1);
+            string[] list = new string[] { "17", "4", "2", "5", "6", "8" };
 
             Order order = new Order(list);
             List<int> result = order.GenerateOrder();
