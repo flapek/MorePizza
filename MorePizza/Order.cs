@@ -34,6 +34,7 @@ namespace MorePizza
         {
             double sum = PizzaSlicesNumbers.Sum();
             List<int> resultOrder = new List<int>();
+            List<int> result = new List<int>();
             double odds = sum - MaximumSlice;
             if (odds <= 0)
             {
@@ -42,12 +43,20 @@ namespace MorePizza
             else
             {
                 List<int> numbers = SearchNumbers(odds);
-                resultOrder = PizzaSlicesNumbers;
+                foreach (var item in PizzaSlicesNumbers)
+                    resultOrder.Add(item);
+
                 foreach (var number in numbers)
                     resultOrder.Remove(number);
             }
 
-            return resultOrder;
+            foreach (var item in resultOrder)
+            {
+                result.Add(PizzaSlicesNumbers.IndexOf(item));
+            }
+
+
+            return result.OrderBy(x => x).ToList();
         }
 
         private List<int> SearchNumbers(double odds)
@@ -70,7 +79,7 @@ namespace MorePizza
             } while (!searchDone);
 
             if (!searchDone)
-            {                 
+            {
                 result = SearchSplitedOdds(odds);
             }
 

@@ -13,9 +13,9 @@ namespace OrderTest
         [TestMethod]
         public void TestOrder()
         {
-            File file = new File(path1);
+            File file = new File();
             List<int> expected = new List<int>() { 2, 5, 6, 8 };
-            string[] list = file.ReadFile();
+            string[] list = file.ReadFile(path1);
 
             Order order = new Order(list);
 
@@ -25,14 +25,14 @@ namespace OrderTest
         [TestMethod]
         public void TestGenerateOrder()
         {
-            File file = new File(path1);
-            List<int> expected = new List<int>() { 2, 6, 8 };
-            string[] list = file.ReadFile();
+            File file = new File();
+            List<int> expected = new List<int>() { 0, 2, 3 };
+            string[] list = file.ReadFile(path1);
 
             Order order = new Order(list);
             List<int> result = order.GenerateOrder();
 
-            Assert.AreEqual(expected[2], result[2]);
+            Assert.AreEqual(expected[1], result[1]);
         }
     }
 }
