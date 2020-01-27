@@ -1,4 +1,4 @@
-﻿using System;
+﻿using MorePizza.Model;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,17 +10,17 @@ namespace MorePizza
         {
         }
 
-        public static string CreateString(List<int> list)
+        public static string CreateString(List<PizzaModel> order)
         {
             StringBuilder builder = new StringBuilder();
 
-            builder.Append($"{list.Count}\n");
-            for (int i = 0; i < list.Count; i++)
+            builder.Append($"{order.Count}\n");
+            for (int i = 0; i < order.Count; i++)
             {
-                if (i == list.Count - 1)
-                    builder.Append($"{list[i]}\n");
+                if (i == order.Count - 1)
+                    builder.Append($"{order[i].PizzaId}\n");
                 else
-                    builder.Append($"{list[i]} ");
+                    builder.Append($"{order[i].PizzaId} ");
             }
 
             return builder.ToString();

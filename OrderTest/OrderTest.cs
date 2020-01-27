@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MorePizza;
+using MorePizza.Model;
 using System.Collections.Generic;
 
 namespace OrderTest
@@ -14,11 +15,10 @@ namespace OrderTest
         public void TestOrder()
         {
             List<int> expected = new List<int>() { 2, 5, 6, 8 };
-            string[] list = new string[] { "17", "4", "2", "5", "6", "8" };
+            string[] orderList = new string[] { "17", "4", "2", "5", "6", "8" };
 
-            Order order = new Order(list);
-
-            Assert.AreEqual(expected[0], order.PizzaSlicesNumbers[0]);
+            Order order = new Order(orderList);
+            Assert.AreEqual(expected[0], order.Pizzas[0].SlicesOfPizza);
         }
 
         /// <summary>
@@ -31,9 +31,9 @@ namespace OrderTest
             string[] list = new string[] { "17", "4", "2", "5", "6", "8" };
 
             Order order = new Order(list);
-            List<int> result = order.GenerateOrder();
+            List<PizzaModel> result = order.GenerateOrder();
 
-            Assert.AreEqual(expected[1], result[1]);
+            Assert.AreEqual(expected[1], result[1].PizzaId);
         }
     }
 }

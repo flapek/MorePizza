@@ -1,4 +1,4 @@
-﻿using System;
+﻿using MorePizza.Model;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,121 +8,63 @@ namespace MorePizza
     {
         public int MaximumSlice { get; private set; }
         public int TypesOfPizza { get; private set; }
-        public List<int> PizzaSlicesNumbers { get; private set; }
-        public Order(string[] list)
+        public List<PizzaModel> Pizzas { get; private set; }
+        public Order(string[] order)
         {
-            var res1 = int.TryParse(list[0], out int maxSlice);
-            var res2 = int.TryParse(list[1], out int typesOfPizza);
+            var res1 = int.TryParse(order[0], out int maxSlice);
+            var res2 = int.TryParse(order[1], out int typesOfPizza);
             if (res1 && res2)
             {
                 MaximumSlice = maxSlice;
                 TypesOfPizza = typesOfPizza;
             }
-            PizzaSlicesNumbers = new List<int>();
-            for (int i = 2; i < list.Length; i++)
+            Pizzas = new List<PizzaModel>();
+
+            int pizzaId = 0;
+            for (int i = 2; i < order.Length; i++)
             {
-                var res3 = int.TryParse(list[i], out int slices);
+                var res3 = int.TryParse(order[i], out int slices);
                 if (res3)
                 {
-                    if (list[i] != "")
-                        PizzaSlicesNumbers.Add(slices);
-                }
-            }
-        }
-
-        public List<int> GenerateOrder()
-        {
-            double sum = PizzaSlicesNumbers.Sum();
-            List<int> resultOrder = new List<int>();
-            List<int> result = new List<int>();
-            double odds = sum - MaximumSlice;
-            if (odds <= 0)
-            {
-                resultOrder = PizzaSlicesNumbers;
-            }
-            else
-            {
-                List<int> numbers = SearchNumbers(odds);
-                foreach (var item in PizzaSlicesNumbers)
-                    resultOrder.Add(item);
-
-                foreach (var number in numbers)
-                    resultOrder.Remove(number);
-            }
-
-            foreach (var item in resultOrder)
-            {
-                result.Add(PizzaSlicesNumbers.IndexOf(item));
-            }
-
-
-            return result.OrderBy(x => x).ToList();
-        }
-
-        private List<int> SearchNumbers(double odds)
-        {
-            List<int> result = new List<int>();
-            bool searchDone = false;
-
-            do
-            {
-                if (odds >= PizzaSlicesNumbers.Last())
-                    break;
-
-                result.AddRange(PizzaSlicesNumbers.Where(item => item == odds).Select(item => item));
-
-                if (result.Sum() == odds)
-                    searchDone = true;
-
-                ++odds;
-
-            } while (!searchDone);
-
-            if (!searchDone)
-            {
-                result = SearchSplitedOdds(odds);
-            }
-
-            return result;
-        }
-
-        private List<int> SearchSplitedOdds(double odds)
-        {
-            List<int> result = new List<int>();
-            bool searchDone = false;
-            do
-            {
-                for (int i = PizzaSlicesNumbers.Count - 1; i >= 0; i--)
-                {
-                    result.Add(PizzaSlicesNumbers[i]);
-                    for (int j = 0; j < i - 1; j++)
+                    if (order[i] != "")
                     {
-                        var resultSum = result.Sum();
-                        if (resultSum + PizzaSlicesNumbers[j] == odds)
-                        {
-                            searchDone = true;
-                            result.Add(PizzaSlicesNumbers[j]);
-                            break;
-                        }
-                        else if (resultSum + PizzaSlicesNumbers[j] <= odds)
-                        {
-                            result.Add(PizzaSlicesNumbers[j]);
-                        }
-                        else
-                        {
-                            result.Clear();
-                            break;
-                        }
+                        Pizzas.Add(new PizzaModel(pizzaId, slices));
+                        ++pizzaId;
                     }
-                    if (searchDone)
-                        break;
-                    else
-                        result.Clear();
                 }
-                odds++;
-            } while (!searchDone);
+            }
+        }
 
-            return result;
+        public List<PizzaModel> GenerateOrder()
+        {
+            // Policzenie sumy wszystkich kawałków
+            var SumOfSlices = Pizzas.Sum(x => x.SlicesOfPizza);
+
+            // Jeżeli wszystkie pizze mogą zostać zamówione, to zamawiamy wszystkie
+            if (SumOfSlices <= MaximumSlice) return Pizzas;
+
+            // Sortujemy liste pizz'cami wg. ilości kawałków malejąco
+            Pizzas = Pizzas.OrderByDescending(x => x.SlicesOfPizza).ToList();
+
+            // Tworzymy liste z gotowym zamówieniem
+            var resultOrder = new List<PizzaModel>();
+
+            // Aktualna ilość kawałków
+            int CurrentSlices = 0;
+
+            // Dobieramy pizze, która zmieści się w zadanym ograniczeniu
+            foreach (var pizza in Pizzas)
+            {
+                if (pizza.SlicesOfPizza + CurrentSlices <= MaximumSlice)
+                {
+                    CurrentSlices += pizza.SlicesOfPizza;
+                    resultOrder.Add(pizza);
+                }
+            }
+
+            // Sortujemy pizze wg. identyfikatora
+            resultOrder = resultOrder.OrderBy(x => x.PizzaId).ToList();
+            return resultOrder;
         }
     }
 }

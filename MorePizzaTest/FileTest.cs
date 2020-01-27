@@ -7,8 +7,8 @@ namespace MorePizzaTest
     [TestClass]
     public class FileTest
     {
-        private string pathToRead = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\File\a_example.in";
-        private string pathToCreate = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\File\a_output.in";
+        private string pathToRead = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\ExampleData\a_example.in";
+        private string pathToCreate = @"C:\Users\filap\source\repos\HashCode\MorePizza\MorePizza\Output\a_example.out";
 
         /// <summary>
         /// Metoda sprawdza czy odpowiednio zosta³a utworzona tablica list z pliku
